@@ -1,5 +1,5 @@
 ﻿namespace XmlToJsonRigSoftware
-{
+{ 
     public class KeyValueTypeJson
     {
         public string PropertyName { get; set; }

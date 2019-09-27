@@ -15,11 +15,12 @@ namespace XmlToJsonRigSoftware
         private static readonly List<string> currentElements = new List<string>();
         private static int counter = 0;
         private static string lastNodeName = "";
+        private static List<KeyValueTypeJson> jsonObjects = new List<KeyValueTypeJson>();
 
         static void Main()
         {
             XmlDocument doc = new XmlDocument();
-            doc.Load(@"sample.xml");
+            doc.Load(@"Xml_2019-09-10.xml");
 
             StringBuilder sb = new StringBuilder();
             TraverseElements(doc.ChildNodes, sb);
@@ -49,7 +50,19 @@ namespace XmlToJsonRigSoftware
                 {
                     if (!string.IsNullOrWhiteSpace(value))
                     {
-                        string stringLine = ("\"" + string.Join(".", currentElements) + "\"" + ":" + "\"" + children.Item(0).Value + "\",");
+                        var fullPropertyName = string.Join(".", currentElements);
+                        var propertyValue = children.Item(0).Value;
+
+                        var keyValueTypeJson = new KeyValueTypeJson
+                        {
+                            PropertyName = fullPropertyName,
+                            Value = propertyValue,
+                            Type = 0
+                        };
+
+                        jsonObjects.Add(keyValueTypeJson);
+
+                        string stringLine = ("\"" + fullPropertyName + "\"" + ":" + "\"" + children.Item(0).Value + "\",");
                         sb.AppendLine(stringLine);
                     }
 
